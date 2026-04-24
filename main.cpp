@@ -39,10 +39,10 @@ int no = 1;
 int harga = 50000;
 
 string daftarFilm[5] = {
-    "Avengers",
-    "Naruto",
-    "Spiderman",
-    "Joker",
+    "Manchester by the sea",
+    "Prisonners",
+    "Brother",
+    "",
     "Batman"
 };
 
