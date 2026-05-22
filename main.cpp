@@ -251,17 +251,34 @@ void cariDataPembeli() {
 
 void urutkanSesuaiNama() {
     tampilHeader("SORTING NAMA (A-Z)");
+
     if (headTiket == NULL || headTiket->next == NULL) {
         cout << "Datanya belum cukup buat diurutin." << endl;
         return;
     }
 
     for (Tiket* i = headTiket; i != NULL; i = i->next) {
+
         for (Tiket* j = i->next; j != NULL; j = j->next) {
+
             if (strcmp(i->namaPembeli, j->namaPembeli) > 0) {
+
+                // temporary buat swap char array
+                char tempNama[50];
+                char tempFilm[50];
+
+                // swap nama pembeli
+                strcpy(tempNama, i->namaPembeli);
+                strcpy(i->namaPembeli, j->namaPembeli);
+                strcpy(j->namaPembeli, tempNama);
+
+                // swap judul film
+                strcpy(tempFilm, i->judulFilm);
+                strcpy(i->judulFilm, j->judulFilm);
+                strcpy(j->judulFilm, tempFilm);
+
+                // swap data lainnya
                 swap(i->idTiket, j->idTiket);
-                swap(i->namaPembeli, j->namaPembeli);
-                swap(i->judulFilm, j->judulFilm);
                 swap(i->indexFilm, j->indexFilm);
                 swap(i->baris, j->baris);
                 swap(i->kolom, j->kolom);
@@ -269,6 +286,7 @@ void urutkanSesuaiNama() {
             }
         }
     }
+
     cout << "Berhasil diurutkan secara Ascending (Bubble Sort)!" << endl;
 }
 
