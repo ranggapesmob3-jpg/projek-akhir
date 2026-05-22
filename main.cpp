@@ -290,6 +290,67 @@ void urutkanSesuaiNama() {
     cout << "Berhasil diurutkan secara Ascending (Bubble Sort)!" << endl;
 }
 
+// FUNGSI BARU UNTUK UPDATE DATA
+void editTiket() {
+    tampilHeader("EDIT TIKET (UPDATE DATA)");
+    if (headTiket == NULL) { 
+        cout << "Belum ada data pesanan yang bisa diedit." << endl; 
+        return; 
+    }
+    
+    int targetId;
+    cout << "Masukkan ID Tiket yang mau diedit: ";
+    targetId = inputAngka();
+
+    Tiket* curr = headTiket;
+    while (curr != NULL) {
+        if (curr->idTiket == targetId) {
+            cout << endl << "Data ditemukan! Atas nama: " << curr->namaPembeli << endl;
+            cout << "Apa yang mau diedit?" << endl;
+            cout << "1. Koreksi Nama Pembeli" << endl;
+            cout << "2. Pindah Kursi (Film yang sama)" << endl;
+            cout << "Pilih (1-2): ";
+            int pilihanEdit = inputAngka();
+
+            if (pilihanEdit == 1) {
+                cout << "Masukkan nama baru: ";
+                cin.getline(curr->namaPembeli, 50);
+                cout << "Nama berhasil di-update!" << endl;
+            } 
+            else if (pilihanEdit == 2) {
+                tampilKursi(curr->indexFilm); // Tampilkan denah di film tersebut
+                char brsBaru;
+                int klmBaru;
+                cout << endl << "Pilih Baris Baru (A-E): ";
+                cin >> brsBaru;
+                cout << "Pilih Kolom Baru (1-5): ";
+                klmBaru = inputAngka();
+
+                if (cekKursiKosong(curr->indexFilm, brsBaru, klmBaru)) {
+                    // 1. Kosongkan kursi yang lama
+                    kosongkanKursi(curr->indexFilm, curr->baris, curr->kolom);
+                    
+                    // 2. Update data di Linked List
+                    curr->baris = brsBaru;
+                    if (curr->baris >= 'a' && curr->baris <= 'e') curr->baris -= 32; // Uppercase
+                    curr->kolom = klmBaru;
+                    
+                    // 3. Pesan kursi yang baru di array 3D
+                    pesanKursi(curr->indexFilm, curr->baris, curr->kolom);
+                    cout << "Kursi berhasil dipindahkan!" << endl;
+                } else {
+                    cout << "Gagal! Kursi incaran sudah terisi atau salah input." << endl;
+                }
+            } else {
+                cout << "Pilihan tidak valid." << endl;
+            }
+            return; // Keluar fungsi setelah selesai edit
+        }
+        curr = curr->next;
+    }
+    cout << "ID Tiket tidak ditemukan di dalam sistem." << endl;
+}
+
 void batalkanTiket() {
     tampilHeader("HAPUS TIKET");
     if (headTiket == NULL) { 
@@ -388,11 +449,12 @@ int main() {
         cout << "3. Liat Semua Pesanan" << endl;
         cout << "4. Cari Data" << endl;
         cout << "5. Urutin Nama" << endl;
-        cout << "6. Hapus Tiket" << endl;
-        cout << "7. Save Data (.dat File)" << endl;
+        cout << "6. Edit Tiket" << endl;
+        cout << "7. Hapus Tiket" << endl;
+        cout << "8. Save Data (.dat File)" << endl;
         cout << "0. Exit" << endl;
         cout << "--------------------------------------------------------" << endl;
-        cout << "Pilih (0-7): ";
+        cout << "Pilih (0-8): ";
         menuPilihan = inputAngka();
 
         switch (menuPilihan) {
@@ -422,10 +484,14 @@ int main() {
                 jedaLayar(); 
                 break;
             case 6: 
-                batalkanTiket(); 
+                editTiket(); 
                 jedaLayar(); 
                 break;
             case 7: 
+                batalkanTiket(); 
+                jedaLayar(); 
+                break;
+            case 8: 
                 simpanDatabase(); 
                 cout << "Data berhasil di-save ke dalam file biner db_bioskop.dat!" << endl; 
                 jedaLayar(); 
