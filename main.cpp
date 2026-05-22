@@ -45,7 +45,7 @@ void jedaLayar() {
 void tampilHeader(const char* judulMenu) {
     bersihLayar();
     cout << "========================================================" << endl;
-    cout << "                     BIOSKOP PRO+                       " << endl;
+    cout << "           SISTEM TIKET BIOSKOP (SISFO UPNYK)           " << endl;
     cout << "========================================================" << endl;
     cout << " > " << judulMenu << endl;
     cout << "--------------------------------------------------------" << endl;
